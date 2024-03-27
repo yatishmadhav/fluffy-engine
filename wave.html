@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<style>
+		* {
+			margin: 0;
+			padding: 0;
+			box-sizing: border-box;
+		}
+		:root{
+			--index: calc(1vw + 1vh);
+			--transition: cubic-bezier(.1, .7, 0, 1);
+		}
+		body{
+			background-color: #a1a1a1;
+			font-family: Arial, Helvetica, sans-serif;
+		}
+		.wrapper{
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			height: 100vh;
+		}
+		.items{
+			display: flex;
+			gap: 0.3rem;
+			perspective: calc(var(--index) * 35);
+		}
+		.item{
+			width: calc(var(--index) * 2);
+			height: calc(var(--index) * 12);
+			background-color: #22222288;
+			background-size: cover;
+			padding: 5px;
+			background-position: center;
+			cursor: pointer;
+			filter: grayscale(1) brightness(.5);
+			transition: transform 1.25s var(--transition), filter 2s var(--transition), width 1.25s var(--transition);
+			will-change: transform, filter, rotateY, width;
+			color: #fff;
+			overflow: hidden;
+			text-wrap:nowrap;
+		}
+		.item::before, .item::after{
+			content: '';
+			position: absolute;
+			height: 100%;
+			width: 20px;
+			right: calc(var(--index) * -1);
+		}
+		.item::after{
+			left: calc(var(--index) * -1);
+		}
+		.items .item:hover{
+			filter: inherit;
+			transform: translateZ(calc(var(--index) * 10));
+		}
+		/*Right*/
+		.items .item:hover + *{
+			filter: inherit;
+			transform: translateZ(calc(var(--index) * 8.5)) rotateY(35deg);
+			z-index: -1;
+		}
+		.items .item:hover + * + *{
+			filter: inherit;
+			transform: translateZ(calc(var(--index) * 5.6)) rotateY(40deg);
+			z-index: -2;
+		}
+		.items .item:hover + * + * + *{
+			filter: inherit;
+			transform: translateZ(calc(var(--index) * 2.5)) rotateY(30deg);
+			z-index: -3;
+		}
+		.items .item:hover + * + * + * + *{
+			filter: inherit;
+			transform: translateZ(calc(var(--index) * .6)) rotateY(15deg);
+			z-index: -4;
+		}
+		/*Left*/
+		.items .item:has( + :hover){
+			filter: inherit;
+			transform: translateZ(calc(var(--index) * 8.5)) rotateY(-35deg);
+		}
+		.items .item:has( + * + :hover){
+			filter: inherit;
+			transform: translateZ(calc(var(--index) * 5.6)) rotateY(-40deg);
+		}
+		.items .item:has( + * + * + :hover){
+			filter: inherit;
+			transform: translateZ(calc(var(--index) * 2.5)) rotateY(-30deg);
+		}
+		.items .item:has( + * + * + * + :hover){
+			filter: inherit;
+			transform: translateZ(calc(var(--index) * .6)) rotateY(-15deg);
+		}
+		.items .item:active, .items .item:focus {
+			width: 28vw;
+			filter: inherit;
+			z-index: 100;
+			transform: translateZ(calc(var(--index) * 10));
+			margin: 0 .45vw;
+		}
+	</style>
+</head>
+<body>
+	<div class="wrapper">
+		<div class="items">
+			<div class="item" tabindex="0" style="background-image: url(https://picsum.photos/600/400?random=1)">dsdf sfhd hfsuf dish fuisd hisduhfsd hudsif</div>
+			<div class="item" tabindex="0" style="background-image: url(https://picsum.photos/600/400?random=2)">dsdf sfhd hfsuf dish fuisd hisduhfsd hudsif</div>
+			<div class="item" tabindex="0" style="background-image: url(https://picsum.photos/600/400?random=3)">dsdf sfhd hfsuf dish fuisd hisduhfsd hudsif</div>
+			<div class="item" tabindex="0" style="background-image: url(https://picsum.photos/600/400?random=4)">dsdf sfhd hfsuf dish fuisd hisduhfsd hudsif</div>
+			<div class="item" tabindex="0" style="background-image: url(https://picsum.photos/600/400?random=5)">dsdf sfhd hfsuf dish fuisd hisduhfsd hudsif</div>
+			<div class="item" tabindex="0" style="background-image: url(https://picsum.photos/600/400?random=6)">dsdf sfhd hfsuf dish fuisd hisduhfsd hudsif</div>
+			<div class="item" tabindex="0" style="background-image: url(https://picsum.photos/600/400?random=7)">dsdf sfhd hfsuf dish fuisd hisduhfsd hudsif</div>
+			<div class="item" tabindex="0" style="background-image: url(https://picsum.photos/600/400?random=8)">dsdf sfhd hfsuf dish fuisd hisduhfsd hudsif</div>
+			<div class="item" tabindex="0" style="background-image: url(https://picsum.photos/600/400?random=9)">dsdf sfhd hfsuf dish fuisd hisduhfsd hudsif</div>
+			<div class="item" tabindex="0" style="background-image: url(https://picsum.photos/600/400?random=10)">dsdf sfhd hfsuf dish fuisd hisduhfsd hudsif</div>
+		</div>
+	</div>
+</body>
+</html>
