@@ -1,0 +1,141 @@
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<style>
+		@keyframes starfade {
+			0% {
+				opacity : 1;
+				-webkit-filter: blur(0px);
+				-moz-filter: blur(0px);
+				-o-filter: blur(0px);
+				-ms-filter: blur(0px);
+			}
+			10% {
+				opacity : 0.3;
+				-webkit-filter: blur(50px);
+				-moz-filter: blur(50px);
+				-o-filter: blur(50px);
+				-ms-filter: blur(50px);
+			}
+			80% {
+				opacity : 0.9;
+				-webkit-filter: blur(90px);
+				-moz-filter: blur(90px);
+				-o-filter: blur(90px);
+				-ms-filter: blur(90px);
+			}
+			100% {
+				opacity : 0;
+				-webkit-filter: blur(30px);
+				-moz-filter: blur(30px);
+				-o-filter: blur(30px);
+				-ms-filter: blur(30px);
+			}
+		}
+		body {
+			background-color: #06061f;
+			background-image: linear-gradient(#0a0a3a, #010110);
+		}
+		.star {
+			z-index : 999;
+			animation : starfade 10s linear;
+			position : absolute;
+		}
+		.star:before,
+		.star:after {
+			content : "\2605";
+			color : #ffe262;
+			position : absolute;
+		}
+	</style>
+</head>
+<body>
+	<script>
+		var brd = document.createElement("div");
+		document.body.insertBefore(brd, document.getElementById("board"));
+
+		const duration = 2000;
+		const speed = 0.3;
+		const cursorXOffset = 0;
+		const cursorYOffset = -30;
+		var stars = [];
+		function generatestar(x, y, xBound, xStart, scale)
+		{
+			var star = document.createElement("div");
+			star.setAttribute('class', 'star');
+			brd.appendChild(star);
+			star.time = duration;
+			star.x = x;
+			star.y = y;
+			star.bound = xBound;
+			star.direction = xStart;
+			star.style.left = star.x + "px";
+			star.style.top = star.y + "px";
+			star.scale = scale;
+			star.style.transform = "scale(" + scale + "," + scale + ")";
+			if(stars == null)
+			stars = [];
+			stars.push(star);
+			return star;
+		}
+
+		var down = false;
+		var event = null;
+
+		document.onmousedown = function(e) {
+			down = true;
+			event = e;
+		}
+		document.onmouseup = function(e) {
+			down = false;
+		}
+		document.onmousemove = function(e) {
+			event = e;
+		}
+		document.ontouchstart = function(e) {
+			down = true;
+			event = e.touches[0];
+		}
+		document.ontouchend = function(e) {
+			down = false;
+		}
+		document.ontouchmove = function(e) {
+			event = e.touches[0];
+		}
+
+		var before = Date.now();
+		var id = setInterval(frame, 5);
+		var gr = setInterval(check, 25);
+
+		function frame()
+		{
+			var current = Date.now();
+			var deltaTime = current - before;
+			before = current;
+			for(i in stars)
+			{
+				var star = stars[i];
+				star.time -= deltaTime;
+				if(star.time > 0)
+				{
+					star.y -= speed;
+					star.style.top = star.y + "px";
+					star.style.left = star.x + star.direction * star.bound * Math.sin(star.y * star.scale / 100) / star.y * 500 + "px";
+				}
+				else
+				{
+					star.parentNode.removeChild(star);
+					stars.splice(i, 1);
+				}
+			}
+		}
+
+		function check()
+		{
+			if(down)
+			{
+				//generatestar(event.pageX - brd.offsetLeft + cursorXOffset, event.pageY - brd.offsetTop + cursorYOffset, bound, start, scale);
+				generatestar(event.pageX - brd.offsetLeft + cursorXOffset, event.pageY - brd.offsetTop + cursorYOffset, (30 + Math.random() * 20), (1 - Math.round(Math.random()) * 2), (Math.random() * Math.random() * 5 + 0.2));
+			}
+		}
+	</script>
+</body>
